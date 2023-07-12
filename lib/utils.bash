@@ -28,7 +28,14 @@ download_release() {
 	version="$1"
 	filename="$2"
 
-	url="$DL_REPO/release/mercury-srcdist-${version}.tar.xz"
+	release=release
+
+	if [[ $version =~ ^rotd ]]; then
+		release=rotd
+	elif [[ $version =~ -beta- ]]; then
+		release=beta
+	fi
+	url="$DL_REPO/$release/mercury-srcdist-${version}.tar.xz"
 
 	echo "* Downloading $TOOL_NAME release $version..."
 	curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
